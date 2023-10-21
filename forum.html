@@ -6,29 +6,67 @@
 </head>
 <body>
 
-  <!-- Dropdown to select a category -->
-  <select id="categorySelect" onchange="filterPosts()">
-    <option value="Issues">Issues</option>
-    <option value="Information">Information</option>
-    <option value="Food">Food</option>
-  </select>
+  <!-- Navigation bar-->
+  <div class="navbar">
+    <a href="#home">Home</a>
+    <div class="dropdown">
+      <button class="dropbtn">Campus
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a href="#">News</a>
+        <a href="#">Directions</a>
+        <a href="#">Issues</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">Food
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a href="#">News</a>
+        <a href="#">Reviews</a>
+        <a href="#">Issues</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">Dorms
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a href="#">News</a>
+        <a href="#">Issues</a>
+      </div>
+    </div>
+  </div> 
 
-  <!-- Dropdown to select a community -->
-  <select id="communitySelect" onchange="filterPosts()">
-    <option value="Community1">Community1</option>
-    <option value="Community2">Community2</option>
-  </select>
+   <!-- A button to open the popup form -->
+<button class="open-button" onclick="openForm()">New Post</button>
 
-  <!-- HTML form for submitting a post -->
-  <form id="postForm">
-    <input type="text" id="postTitle" placeholder="Title">
-    <textarea id="postContent" placeholder="Content"></textarea>
-    <button type="submit">Submit Post</button>
+<!-- The new post submission form -->
+<div class="form-popup" id="newPostForm">
+  <form action="/action_page.php" class="form-container">
+    <h1>New Post</h1>
+
+    <label for="title"><b>Title</b></label>
+    <input type="text" placeholder="Enter title" name="title" required>
+
+    <label for="desc"><b>Description</b></label>
+    <input type="text" placeholder="Enter description" name="desc" required>
+
+    <button type="submit" class="btn">Submit</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+</div> 
+
+  <form>
+    <input type="text" name="search"
+    placeholder="Search...">
   </form>
 
   <!-- Main container for all posts -->
   <div id="mainContainer"></div>
-
+ 
   <script>
     // Database URL
     const firebaseDatabaseURL = "https://msuduhackton.firebaseio.com/";
@@ -97,6 +135,13 @@
         container.appendChild(postDiv);
       }
     } 
+  function openForm() {
+    document.getElementById("newPostForm").style.display = "block";
+  }
+
+  function closeForm() {
+    document.getElementById("newPostForm").style.display = "none";
+  } 
   </script>
 </body>
 </html>

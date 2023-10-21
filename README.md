@@ -3,7 +3,7 @@ Project By: Team 9
 - Keegan Nelson
 - Derek Rodriguez
 - Jihadu Yassien
-- Bennett Kauffmann
+- Bennett Kaufmann
 - Luke Farchione
 - Brian Mulder
 

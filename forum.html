@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Forum for Issues</title>
+  <style>
+    .community, .post {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin: 20px;
+    }
+    .upvote {
+      cursor: pointer;
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dropdown to select a category -->
+  <select id="categorySelect" onchange="updateCommunityDropdown()">
+  </select>
+
+  <!-- Dropdown to select a community -->
+  <select id="communitySelect" onchange="filterPosts()">
+  </select>
+
+  <!-- HTML form for submitting a post -->
+  <form id="postForm">
+    <input type="text" id="postTitle" placeholder="Title">
+    <textarea id="postContent" placeholder="Content"></textarea>
+    <button type="submit">Submit Post</button>
+  </form>
+
+  <!-- Main container for all posts -->
+  <div id="mainContainer"></div>
+
+  <script>
+    const firebaseDatabaseURL = "https://<your-database-name>.firebaseio.com/";
+
+    // Function to handle form submissions using fetch API
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const title = document.getElementById('postTitle').value;
+      const content = document.getElementById('postContent').value;
+      const category = document.getElementById('categorySelect').value;
+      const community = document.getElementById('communitySelect').value;
+
+      const newPost = {
+        title: title,
+        content: content,
+        upvotes: 0
+      };
+
+      // API URL to post new data
+      const postUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json`;
+
+      // Post data to Firebase using fetch
+      fetch(postUrl, {
+        method: 'POST',
+        body: JSON.stringify(newPost)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        // Clear the form fields
+        document.getElementById('postTitle').value = '';
+        document.getElementById('postContent').value = '';
+        // Optionally, refresh the posts
+        filterPosts();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    });
+
+    // Fetch categories on page load and populate the dropdown
+    fetch(`${firebaseDatabaseURL}/categories.json`)
+    .then(response => response.json())
+    .then(data => populateCategoryDropdown(data));
+
+    // Function to update the communities dropdown based on selected category
+    function updateCommunityDropdown() {
+      const category = document.getElementById('categorySelect').value;
+      fetch(`${firebaseDatabaseURL}/communities/${category}.json`)
+      .then(response => response.json())
+      .then(data => populateCommunityDropdown(data));
+    }
+
+    // Function to filter and display posts
+    function filterPosts() {
+      const category = document.getElementById('categorySelect').value;
+      const community = document.getElementById('communitySelect').value;
+      fetch(`${firebaseDatabaseURL}/posts/${category}/${community}.json`)
+      .then(response => response.json())
+      .then(data => updatePosts(data));
+    }
+
+    // Function to populate the category dropdown
+    function populateCategoryDropdown(categories) {
+      const select = document.getElementById('categorySelect');
+      select.innerHTML = '';
+      for (const category in categories) {
+        const option = document.createElement('option');
+        option.value = category;
+        option.innerText = categories[category].name;
+        select.appendChild(option);
+      }
+    }
+
+    // Function to populate the community dropdown based on selected category
+    function populateCommunityDropdown(communities) {
+      const select = document.getElementById('communitySelect');
+      select.innerHTML = '';
+      for (const community in communities) {
+        const option = document.createElement('option');
+        option.value = community;
+        option.innerText = communities[community].name;
+        select.appendChild(option);
+      }
+    }
+
+    // Function to display posts
+    function updatePosts(posts) {
+      const container = document.getElementById('mainContainer');
+      container.innerHTML = '';
+      for (const postId in posts) {
+        const post = posts[postId];
+        const postDiv = document.createElement('div');
+        postDiv.innerText = `Title: ${post.title}, Content: ${post.content}, Upvotes: ${post.upvotes}`;
+        container.appendChild(postDiv);
+      }
+    } 
+  </script>
+</body>
+</html>
+

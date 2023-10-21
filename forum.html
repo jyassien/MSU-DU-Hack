@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="style.css">
   <title>Forum for Issues</title>
-  <style>
-    .post {
-      border: 1px solid #cccccc;
-      padding: 20px;
-      margin: 20px;
-    }
-    .upvote {
-      cursor: pointer;
-      color: rgba(238, 8, 8, 0.772);
-    }
-  </style>
 </head>
 <body>
 
@@ -65,7 +55,6 @@
 
       // Firebase endpoint for storing posts
       const postUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
-
       // Perform a POST request to Firebase
       fetch(postUrl, {
         method: 'POST',
@@ -84,7 +73,7 @@
         console.error('Error:', error);
       });
     });
-
+    filterPosts();
     // Function to filter and display posts
     function filterPosts() {
       const category = document.getElementById('categorySelect').value;

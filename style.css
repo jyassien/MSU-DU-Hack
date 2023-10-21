@@ -1,0 +1,18 @@
+body{
+    background-color: dimgray;
+}
+
+h1{
+    color:white;
+    margin-left: 20px;
+}
+.post {
+    border: 1px solid #cccccc;
+    padding: 20px;
+    margin: 20px;
+    color: white;
+}
+.upvote {
+  cursor: pointer;
+  color: rgba(238, 8, 8, 0.772);
+}

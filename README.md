@@ -20,9 +20,16 @@ Ticketing System with Upvoting for Promotion
 2.	Feature
 3.	Demo Link
 4.	Technologies Used
+5.	Known Issues
+6.	Future Development
+7.	Acknowledgements
+8.	Contact Information
+9.	Documentation
+10.	Changelog
+11.	Contributions
+12.	Testing
 
-   
-**1.  Usage:**
+ **1.  Usage:**
    - Describe how to use your project.
    - Provide code examples or use cases.
    - Include any configuration or setup instructions.
@@ -37,30 +44,26 @@ Ticketing System with Upvoting for Promotion
 **4. Technologies Used:**
    - List the technologies, frameworks, and libraries you used in your project.
 
-**5. Contributing:**
-    - Explain how others can contribute to your project.
-    - Include guidelines for pull requests and contributions.
-
-**6. Known Issues:**
+**5. Known Issues:**
     - Mention any known bugs or issues, if applicable.
 
-**8. Future Development:**
+**6. Future Development:**
     - Share your plans for future development.
     - List features or improvements you'd like to add.
 
-**9. Acknowledgments:**
-    - Give credit to any external resources, libraries, or tools you used.
+**7. Acknowledgments:**
+ - Give credit to any external resources, libraries, or tools you used.
 
-**10. Contact Information:**
-    - Provide a way for users to get in touch with you or your team.
+**8. Contact Information:**
+ - Provide a way for users to get in touch with you or your team.
 
-**11. Documentation:**
-    - Include links to additional documentation or resources if available.
+**9. Documentation:**
+ - Include links to additional documentation or resources if available.
 
-**12. Changelog:**
-    - Keep a changelog to track updates and new features.
+**10. Changelog:**
+ - Keep a changelog to track updates and new features.
 
-**13. Contributors:**
+**11. Contributors:**
 - Keegan Nelson – Multiple coding commits with bug fixes and database development
 - Derek Rodriguez – Front-end development with focus on CSS 
 - Jihadu Yassien – Principal database development and integration into development environment and final product
@@ -68,5 +71,5 @@ Ticketing System with Upvoting for Promotion
 - Luke Farchione - Front-end coding and html development of the app environment for functionality and top-tier bug resolution.  
 - Brian Mulder – Documentation specialist and user testing
 
-**15. Testing:**
+**12. Testing:**
     - Explain how to run tests for your project.

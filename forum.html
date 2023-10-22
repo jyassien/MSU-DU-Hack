@@ -14,9 +14,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <a href="#Campus-News">News</a>
-        <a href="#Campus-Directions">Directions</a>
-        <a href="#Campus-Issues">Issues</a>
+        <a href="#Campus-News" onclick="filterPosts('Campus', 'News')">News</a>
+        <a href="#Campus-Directions" onclick="filterPosts('Campus', 'Directions')">Directions</a>
+        <a href="#Campus-Issues" onclick="filterPosts('Campus', 'Issues')">Issues</a>
       </div>
     </div>
     <div class="dropdown">
@@ -24,9 +24,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <a href="#Food-News">News</a>
-        <a href="#Food-Reviews">Reviews</a>
-        <a href="#Food-Issues">Issues</a>
+        <a href="#Food-News" onclick="filterPosts('Food', 'News')">News</a>
+        <a href="#Food-Reviews" onclick="filterPosts('Food', 'Reviews')">Reviews</a>
+        <a href="#Food-Issues" onclick="filterPosts('Food', 'Issues')">Issues</a>
       </div>
     </div>
     <div class="dropdown">
@@ -34,8 +34,8 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <a href="#Dorms-News">News</a>
-        <a href="#Dorms-Issues">Issues</a>
+        <a href="#Dorms-News" onclick="filterPosts('Dorms', 'News')">News</a>
+        <a href="#Dorms-Issues" onclick="filterPosts('Dorms', 'Issues')">Issues</a>
       </div>
     </div>
   </div> 
@@ -102,12 +102,11 @@
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
-        alert("Hi");
         // Clear form fields
         document.getElementById('postTitle').value = '';
         document.getElementById('postContent').value = '';
         // Refresh posts
-        filterPosts();
+        filterPosts(category, community);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -115,15 +114,15 @@
     });
 
     window.addEventListener('DOMContentLoaded', function() {
-      filterPosts();
-    });
-
-    // Function to filter and display posts
-    function filterPosts() {
       const hashPart = window.location.hash.substr(1);
       const category = hashPart.split("-")[0];
       const community = hashPart.split("-")[1];
 
+      filterPosts(category, community);
+    });
+
+    // Function to filter and display posts
+    function filterPosts(category, community) {
       const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
       
       fetch(fetchUrl)

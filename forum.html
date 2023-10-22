@@ -82,9 +82,11 @@
 <!-- Main container for all posts -->
 <div id="mainContainer"></div>
 
-<script>  
+<script>
   // Database URL
   const firebaseDatabaseURL = "https://msuduhackton.firebaseio.com";
+  // Upvote adding URL
+  const upvoteRequestURL = "https://upvote-ulom5v45wa-uc.a.run.app";
   
   // Add your auth token here
   const authToken = 'Qo48kLx2pbVoBJOC6dJhslRm35319dam4oOPwfwg';
@@ -146,24 +148,25 @@
       document.getElementById('location').textContent = `${category}`;
     }
 
-    const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
+      const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
+      
+      fetch(fetchUrl)
+      .then(response => response.json())
+      .then(data => updatePosts(data));
+    }
     
-    fetch(fetchUrl)
-    .then(response => response.json())
-    .then(data => updatePosts(data));
-  }
-  
-  function updatePosts(posts) {
-    const container = document.getElementById('mainContainer');
-    container.innerHTML = '';
-    for (const postId in posts) {
-      const post = posts[postId];
-      const postDiv = document.createElement('div');
-      postDiv.className = 'post';
-  
-      // Create a div for upvote button and vote count
-      const upvoteInfo = document.createElement('div');
-      upvoteInfo.className = 'upvote-info';
+    function updatePosts(posts) {
+      const container = document.getElementById('mainContainer');
+      container.innerHTML = '';
+      for (const postId in posts) {
+        const post = posts[postId];
+        const postDiv = document.createElement('div');
+        postDiv.id = postId;
+        postDiv.className = 'post';
+    
+        // Create a div for upvote button and vote count
+        const upvoteInfo = document.createElement('div');
+        upvoteInfo.className = 'upvote-info';
 
       // Create upvote button
       const upvoteButton = document.createElement('div');
@@ -192,15 +195,34 @@
       postContent.className = 'post-content-text';
       postContent.innerText = `Content: ${post.content}`;
 
-      upvoteButton.addEventListener('click', function() {
-        post.upvotes++;
-        voteCount.innerText = post.upvotes;
-      });  
-  
-      // Append upvote button and vote count to the upvoteInfo div
-      upvoteInfo.appendChild(upvoteButton);
-      upvoteInfo.appendChild(voteCount);
-      upvoteInfo.style.width = "50px";
+        upvoteButton.addEventListener('click', function() {
+          const hashPart = window.location.hash.substr(1);
+          
+          const category = hashPart.split("-")[0];
+          const community = hashPart.split("-")[1];
+          
+          const postUrl = `${upvoteRequestURL}?category=${category}&community=${community}&postid=${postId}`;
+          console.log(postUrl);
+          // Perform a POST request to post api
+          fetch(postUrl, {
+            method: 'POST',
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+
+            post.upvotes++;
+            voteCount.innerText = post.upvotes;
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+        });
+    
+        // Append upvote button and vote count to the upvoteInfo div
+        upvoteInfo.appendChild(upvoteButton);
+        upvoteInfo.appendChild(voteCount);
+        upvoteInfo.style.width = "50px";
 
   
       // Append post title and content to postContentDiv
@@ -218,23 +240,22 @@
     }
   }
 
-function openForm() {
-  document.getElementById("newPostForm").style.display = "block";
-}
+  function openForm() {
+    document.getElementById("newPostForm").style.display = "block";
+  }
 
-function closeForm() {
-  document.getElementById("newPostForm").style.display = "none";
-}
+  function closeForm() {
+    document.getElementById("newPostForm").style.display = "none";
+  }
 
-window.addEventListener('DOMContentLoaded', function() {
-  const hashPart = window.location.hash.substr(1);
-  
-  const category = hashPart.split("-")[0];
-  const community = hashPart.split("-")[1];
+  window.addEventListener('DOMContentLoaded', function() {
+    const hashPart = window.location.hash.substr(1);
+    
+    const category = hashPart.split("-")[0];
+    const community = hashPart.split("-")[1];
 
-  filterPosts(category, community);
-});
-
+    filterPosts(category, community);
+  });
 </script>
 </body>
 </html>

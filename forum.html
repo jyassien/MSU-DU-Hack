@@ -70,10 +70,10 @@
     <div class="form-container">
       <label for="title"><b>Title</b></label>
       <input type="text" id="postTitle" placeholder="Enter title" name="title" required>
-
+      <p></p>
       <label for="desc"><b>Description</b></label>
       <input type="text" class="big-input" id="postDesc" placeholder="Enter description" name="desc" required>
-
+      <p></p>
       <button class="btn" type="submit" id="postBtn">Post</button>
     </div>
 
@@ -87,7 +87,7 @@
 <!-- The Modal -->
 <div id="login" class="modal">
   <!-- Modal Content -->
-  <form class="modal-content animate" action="/action_page.php">
+  <form class="modal-content animate">
     <h1 class="dialog-header">Login</h1>
     <div class="imgcontainer">
       <img src="login.png" alt="Avatar" class="avatar">
@@ -99,7 +99,7 @@
 
       <label for="psw"><b>Password</b></label>
       <input type="password" placeholder="Enter Password" name="psw" required>
-
+      <p></p>
       <button class="btn" type="submit">Login</button>
     </div>
 
@@ -113,7 +113,7 @@
 <!-- The sign up Modal -->
 <div id="signup" class="modal">
   <!-- Modal Content -->
-  <form class="modal-content animate" action="/signup-page.php">
+  <form  id="signupSubmit" class="modal-content animate" action="">
     <h1 class="dialog-header">Sign Up</h1>
     <div class="imgcontainer">
       <img src="login.png" alt="Avatar" class="avatar">
@@ -121,11 +121,11 @@
 
     <div class="form-container">
       <label for="uname"><b>Email</b></label>
-      <input type="text" placeholder="Enter email" name="uname" required>
+      <input type="text" placeholder="Enter email" id="email" required>
 
       <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-
+      <input type="password" placeholder="Enter Password" id="psw" required>
+      <p></p>
       <button class="btn" type="submit">Sign Up</button>
     </div>
 
@@ -153,6 +153,30 @@
     const formattedDate = currentDate.toISOString().slice(0, -5);
     return formattedDate;
   }
+  //event listener for login
+  document.getElementById("signupSubmit").addEventListener('submit',function(e){
+    const uname = document.getElementById("email").value;
+    const psw = document.getElementById("psw").value;
+
+    const postUrl = `https://signup-ulom5v45wa-uc.a.run.app/?uname=${uname}&psw=${psw}/`;
+    console.log(postUrl);
+    // Perform a POST request to Firebase
+    fetch(postUrl, {
+      method: 'POST',
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      // Clear form fields
+      document.getElementById('email').value = '';
+      document.getElementById('psw').value = '';
+      // Refresh posts
+      filterPosts(category, community);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  });
 
   // Event Listener for form submission
   document.getElementById('postContent').addEventListener('submit', function(e) {

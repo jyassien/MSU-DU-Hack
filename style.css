@@ -16,10 +16,7 @@ h1{
   cursor: pointer;
   color: rgba(238, 8, 8, 0.772);
 }
-input[type=text]:focus{
-    outline:none;
-    border: 3px solid #555;
-}
+
  /* Navbar container */
  .navbar {
     overflow: hidden;

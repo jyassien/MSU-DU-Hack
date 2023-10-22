@@ -38,10 +38,9 @@
         <a href="#Dorms-Issues" onclick="filterPosts('Dorms', 'Issues')">Issues</a>
       </div>
     </div>
-    <div class="login">
-      <a href="#login">Login</a>
-    </div>
-  </div> 
+      <button class="login" onclick="document.getElementById('login').style.display='block'">Login</button>
+      <button class="login" onclick="document.getElementById('signup').style.display='block'">Sign Up</button>
+    </div> 
 
 <div class="topStuff">
    <!-- A button to open the popup form -->
@@ -57,9 +56,9 @@
 
 <div class="sorting">
     <span>sort by</span>
-    <button class="button-2">top</button>
-    <button class="button-2">hot</button>
-    <button class="button-2">new</button>
+    <button class="button-2" id="sortbtn-top" onclick="sortBy(0)">top</button>
+    <button class="button-2" id="sortbtn-new" onclick="sortBy(1)">new</button>
+    <button class="button-2" id="sortbtn-school" onclick="sortBy(2)">school</button>
 </div>
 
 
@@ -78,6 +77,58 @@
     <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
   </form>
 </div> 
+
+<!-- The Modal -->
+<div id="login" class="modal">
+  <!-- Modal Content -->
+  <form class="modal-content animate" action="/action_page.php">
+    <h1 class="dialog-header">Login</h1>
+    <div class="imgcontainer">
+      <img src="login.png" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="form-container">
+      <label for="uname"><b>Email</b></label>
+      <input type="text" placeholder="Enter email" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+
+      <button class="btn" type="submit">Login</button>
+    </div>
+
+    <div class="form-container">
+      <button type="button" onclick="document.getElementById('login').style.display='none'" class="btn cancel">Cancel</button>
+      <!-- <span class="psw">Forgot <a href="#">password?</a></span> -->
+    </div>
+  </form>
+</div>
+
+<!-- The sign up Modal -->
+<div id="signup" class="modal">
+  <!-- Modal Content -->
+  <form class="modal-content animate" action="/signup-page.php">
+    <h1 class="dialog-header">Sign Up</h1>
+    <div class="imgcontainer">
+      <img src="login.png" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="form-container">
+      <label for="uname"><b>Email</b></label>
+      <input type="text" placeholder="Enter email" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+
+      <button class="btn" type="submit">Sign Up</button>
+    </div>
+
+    <div class="form-container">
+      <button type="button" onclick="document.getElementById('signup').style.display='none'" class="btn cancel">Cancel</button>
+    </div>
+  </form>
+</div>
+
 
 <!-- Main container for all posts -->
 <div id="mainContainer"></div>
@@ -245,11 +296,26 @@
       postContentDivParent.appendChild(upvoteInfo)
       postContentDivParent.appendChild(postContentDiv)
 
-      postDiv.appendChild(postContentDivParent);
-      container.appendChild(postDiv);
-      
-      postContentDivParent.style.display = "flex";
-      postContentDivParent.style.display = "flex";
+        postDiv.appendChild(postContentDivParent);
+        container.appendChild(postDiv);
+        
+        postContentDivParent.style.display = "flex";
+        postContentDivParent.style.display = "flex";
+
+      }
+    }
+  function sortBy(byWhat){
+    document.getElementById("sortbtn-top").style.color="black";
+    document.getElementById("sortbtn-new").style.color="black";
+    document.getElementById("sortbtn-school").style.color="black";
+    switch(byWhat){
+      case 0: document.getElementById("sortbtn-top").style.color="red";
+      //TODO: filter posts
+      break;
+      case 1: document.getElementById("sortbtn-new").style.color="red";
+      break;
+      case 2: document.getElementById("sortbtn-school").style.color="red";
+      break;
     }
   }
 

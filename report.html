@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Page</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="center-container">
+    <!-- Include a container for the fetched content -->
+    <div id="container"></div>
+
+    <!-- Add a textbox -->
+    <input type="text" id="reportTextBox" placeholder="Enter report reason">
+
+    <!-- Add a button to go back to the forum -->
+    <button id="backButton">Submit</button>
+  </div>
+
+  <script>
+    // Fetch content from file1.html
+    fetch('forum.html')
+      .then(response => response.text())
+      .then(data => {
+        // Create a temporary div
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = data;
+
+        // Extract the div with id "includedDiv"
+        const includedDiv = tempDiv.querySelector('#includedDiv');
+
+        // Get the container in file2.html
+        const container = document.getElementById('container');
+
+        // Append the included div to the container
+        container.appendChild(includedDiv);
+      });
+    document.getElementById('backButton').addEventListener('click', function() {
+      //Want this to go back to the location you were just at. Need to look at the url that was in the forum.html
+      window.location.href = 'forum.html';
+    });
+  </script>
+</body>
+
+</html>

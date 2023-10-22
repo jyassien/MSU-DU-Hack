@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,7 +68,8 @@
   <!-- Main container for all posts -->
   <div id="mainContainer"></div>
  
-  <script>
+  <script>  
+
     // Database URL
     const firebaseDatabaseURL = "https://msuduhackton.firebaseio.com";
     
@@ -130,7 +132,6 @@
       .then(data => updatePosts(data));
     }
     
-    // Function to display posts
     function updatePosts(posts) {
       const container = document.getElementById('mainContainer');
       container.innerHTML = '';
@@ -138,10 +139,65 @@
         const post = posts[postId];
         const postDiv = document.createElement('div');
         postDiv.className = 'post';
-        postDiv.innerText = `Title: ${post.title}, Content: ${post.content}, Upvotes: ${post.upvotes}`;
+    
+        // Create a div for upvote button and vote count
+        const upvoteInfo = document.createElement('div');
+        upvoteInfo.className = 'upvote-info';
+
+        // Create upvote button
+        const upvoteButton = document.createElement('div');
+        upvoteButton.className = 'upvote';
+        upvoteButton.innerHTML = '&#9650;';
+    
+        // Create vote count
+        const voteCount = document.createElement('div');
+        voteCount.className = 'vote-count';
+        voteCount.innerText = post.upvotes;
+
+        // Create a div for post content
+        
+        const postContentDivParent = document.createElement('div');
+        const postContentDiv = document.createElement('div');
+
+        postContentDiv.className = 'post-content';
+        postContentDiv.style.justifyContent = "space-evenly"
+
+        // Create post content elements
+        const postTitle = document.createElement('div');
+        postTitle.className = 'post-title';
+        postTitle.innerText = `Title: ${post.title}`;
+    
+        const postContent = document.createElement('div');
+        postContent.className = 'post-content-text';
+        postContent.innerText = `Content: ${post.content}`;
+
+        upvoteButton.addEventListener('click', function() {
+          post.upvotes++;
+          voteCount.innerText = post.upvotes;
+        });  
+    
+        // Append upvote button and vote count to the upvoteInfo div
+        upvoteInfo.appendChild(upvoteButton);
+        upvoteInfo.appendChild(voteCount);
+        upvoteInfo.style.width = "50px";
+
+    
+        // Append post title and content to postContentDiv
+        postContentDiv.appendChild(postTitle);
+        postContentDiv.appendChild(postContent);
+
+        postContentDivParent.appendChild(upvoteInfo)
+        postContentDivParent.appendChild(postContentDiv)
+
+        postDiv.appendChild(postContentDivParent);
         container.appendChild(postDiv);
+        
+        postContentDivParent.style.display = "flex";
+        postContentDivParent.style.display = "flex";
+
       }
-    } 
+    }
+  
   function openForm() {
     document.getElementById("newPostForm").style.display = "block";
   }

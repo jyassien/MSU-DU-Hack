@@ -38,10 +38,30 @@
         <a href="#Dorms-Issues">Issues</a>
       </div>
     </div>
+    <div class="login">
+      <a href="#login">Login</a>
+    </div>
   </div> 
 
+<div class="topStuff">
    <!-- A button to open the popup form -->
-<button class="open-button" onclick="openForm()">New Post</button>
+   <button class="open-button" id="openNewPost" onclick="openForm()">New Post</button>
+
+   <h1 id="location"></h1>
+   
+   <form>
+     <input type="text" id="search"
+     placeholder="Search...">
+   </form>
+</div>
+
+<div class="sorting">
+    <span>sort by</span>
+    <button class="button-2">top</button>
+    <button class="button-2">hot</button>
+    <button class="button-2">new</button>
+</div>
+
 
 <!-- The new post submission form -->
 <div class="form-popup" id="newPostForm">
@@ -59,10 +79,9 @@
   </form>
 </div> 
 
-  <form>
-    <input type="text" name="search"
-    placeholder="Search...">
-  </form>
+
+
+
 
   <!-- Main container for all posts -->
   <div id="mainContainer"></div>
@@ -114,13 +133,11 @@
       });
     });
 
-    window.addEventListener('DOMContentLoaded', function() {
-      filterPosts();
-    });
-
     // Function to filter and display posts
     function filterPosts() {
       const hashPart = window.location.hash.substr(1);
+      
+      document.getElementById('location').textContent = hashPart;
       const category = hashPart.split("-")[0];
       const community = hashPart.split("-")[1];
 
@@ -150,6 +167,12 @@
   function closeForm() {
     document.getElementById("newPostForm").style.display = "none";
   } 
+
+  
+  window.addEventListener('DOMContentLoaded', function() {
+      filterPosts();
+    });
+
   </script>
 </body>
 </html>

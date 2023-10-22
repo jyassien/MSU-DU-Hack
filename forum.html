@@ -278,6 +278,7 @@
       const postContentDiv = document.createElement('div');
 
       postContentDiv.className = 'post-content';
+      postContentDiv.style.width = '95%';
       postContentDiv.style.justifyContent = "space-evenly"
 
       // Create post content elements
@@ -322,25 +323,46 @@
         voteCount.innerText = post.upvotes;
       });
   
+      // Create a flag/report button
+      const flagButton = document.createElement('button');
+      flagButton.innerText = 'Report';
+      flagButton.className = 'flag-button';
+
+       // Add an event listener to handle flagging/reporting
+      flagButton.addEventListener('click', function() {
+      // Get the title and content from the post object
+      //const postTitle = post.title;
+      //const postContent = post.content;
+      const postId = postDiv.id; // Get the postId from the postDiv id
+
+      // Redirect to the report.html page with title and content as query parameters
+      const reportUrl = `report.html?postId=${encodeURIComponent(postId)}`;
+      window.location.href = reportUrl;
+      });
+
+      // Append the flag button to the flagContainer
+      // flagContainer.appendChild(flagButton);
       // Append upvote button and vote count to the upvoteInfo div
       upvoteInfo.appendChild(upvoteButton);
       upvoteInfo.appendChild(voteCount);
       upvoteInfo.style.width = "50px";
 
+  
       // Append post title and content to postContentDiv
       postContentDiv.appendChild(postTitle);
       postContentDiv.appendChild(postContent);
-      postContentDiv.appendChild(postDate);
 
       postContentDivParent.appendChild(upvoteInfo)
       postContentDivParent.appendChild(postContentDiv)
 
-        postDiv.appendChild(postContentDivParent);
-        container.appendChild(postDiv);
-        
-        postContentDivParent.style.display = "flex";
-        postContentDivParent.style.display = "flex";
+      postContentDivParent.appendChild(flagButton);
 
+
+      postDiv.appendChild(postContentDivParent);
+      container.appendChild(postDiv);
+      
+      postContentDivParent.style.display = "flex";
+      postContentDivParent.style.display = "flex";
       }
     }
   function sortBy(byWhat){

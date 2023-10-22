@@ -196,7 +196,7 @@ input[type=text]:focus{
 }
 
 #mainContainer{
-  width:96%;
+  width:100%;
   position:absolute;
   right:0;
   top:140px;
@@ -232,4 +232,12 @@ input[type=text]:focus{
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+}
+.upvote {
+    text-align: center;
+    padding-right: 20px;
+}
+.vote-count {
+    text-align: center;
+    padding-right: 20px;
 }

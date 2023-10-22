@@ -9,7 +9,7 @@
 
   <!-- Navigation bar-->
   <div class="navbar">
-    <a href="#home">Home</a>
+    <a href="#home" onclick="filterPosts('home', undefined)">Home</a>
     <div class="dropdown">
       <button class="dropbtn">Campus
         <i class="fa fa-caret-down"></i>
@@ -225,12 +225,11 @@
 
   function closeForm() {
     document.getElementById("newPostForm").style.display = "none";
-  } 
-
+  }
   
   window.addEventListener('DOMContentLoaded', function() {
       filterPosts();
-    });
+  });
 
   </script>
 </body>

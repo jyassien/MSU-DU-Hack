@@ -38,14 +38,13 @@
         <a href="#Dorms-Issues" onclick="filterPosts('Dorms', 'Issues')">Issues</a>
       </div>
     </div>
-    <div class="login">
-      <a href="#login">Login</a>
-    </div>
-  </div> 
+      <button class="login" onclick="document.getElementById('login').style.display='block'">Login</button>
+      <button class="login" onclick="document.getElementById('signup').style.display='block'">Sign Up</button>
+    </div> 
 
 <div class="topStuff">
    <!-- A button to open the popup form -->
-   <button class="open-button" id="openNewPost" onclick="openForm()">New Post</button>
+   <button class="open-button" id="openNewPost" onclick="document.getElementById('newPostModal').style.display='block'">New Post</button>
 
    <h1 id="location"></h1>
    
@@ -57,27 +56,85 @@
 
 <div class="sorting">
     <span>sort by</span>
-    <button class="button-2">top</button>
-    <button class="button-2">hot</button>
-    <button class="button-2">new</button>
+    <button class="button-2" id="sortbtn-top" onclick="sortBy(0)">top</button>
+    <button class="button-2" id="sortbtn-new" onclick="sortBy(1)">new</button>
+    <button class="button-2" id="sortbtn-school" onclick="sortBy(2)">school</button>
 </div>
 
 
-<!-- The new post submission form -->
-<div class="form-popup" id="newPostForm">
-  <form class="form-container" action="">
-    <h1>New Post</h1>
+<!-- The new post modal -->
+<div id="newPostModal" class="modal">
+  <!-- Modal Content -->
+  <form class="modal-content animate" action="" id="postContent">
+    <h1 class="dialog-header">New Post</h1>
+    <div class="form-container">
+      <label for="title"><b>Title</b></label>
+      <input type="text" id="postTitle" placeholder="Enter title" name="title" required>
+      <p></p>
+      <label for="desc"><b>Description</b></label>
+      <input type="text" class="big-input" id="postDesc" placeholder="Enter description" name="desc" required>
+      <p></p>
+      <button class="btn" type="submit" id="postBtn">Post</button>
+    </div>
 
-    <label for="title"><b>Title</b></label>
-    <input type="text" placeholder="Enter title" name="title" id="postTitle" required>
-
-    <label for="desc"><b>Description</b></label>
-    <input type="text" placeholder="Enter description" name="desc" id="postContent" required>
-
-    <button type="submit" class="btn">Submit</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    <div class="form-container">
+      <button type="button" onclick="document.getElementById('newPostModal').style.display='none'" class="btn cancel">Cancel</button>
+      <!-- <span class="psw">Forgot <a href="#">password?</a></span> -->
+    </div>
   </form>
-</div> 
+</div>
+
+<!-- The Modal -->
+<div id="login" class="modal">
+  <!-- Modal Content -->
+  <form class="modal-content animate">
+    <h1 class="dialog-header">Login</h1>
+    <div class="imgcontainer">
+      <img src="login.png" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="form-container">
+      <label for="uname"><b>Email</b></label>
+      <input type="text" placeholder="Enter email" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+      <p></p>
+      <button class="btn" type="submit">Login</button>
+    </div>
+
+    <div class="form-container">
+      <button type="button" onclick="document.getElementById('login').style.display='none'" class="btn cancel">Cancel</button>
+      <!-- <span class="psw">Forgot <a href="#">password?</a></span> -->
+    </div>
+  </form>
+</div>
+
+<!-- The sign up Modal -->
+<div id="signup" class="modal">
+  <!-- Modal Content -->
+  <form  id="signupSubmit" class="modal-content animate" action="">
+    <h1 class="dialog-header">Sign Up</h1>
+    <div class="imgcontainer">
+      <img src="login.png" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="form-container">
+      <label for="uname"><b>Email</b></label>
+      <input type="text" placeholder="Enter school email" id="email" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" id="psw" required>
+      <p></p>
+      <button class="btn" type="submit">Sign Up</button>
+    </div>
+
+    <div class="form-container">
+      <button type="button" onclick="document.getElementById('signup').style.display='none'" class="btn cancel">Cancel</button>
+    </div>
+  </form>
+</div>
+
 
 <!-- Main container for all posts -->
 <div id="mainContainer"></div>
@@ -91,13 +148,59 @@
   // Add your auth token here
   const authToken = 'Qo48kLx2pbVoBJOC6dJhslRm35319dam4oOPwfwg';
 
+  const hashPart = window.location.hash.substr(1);
+
+  const category = hashPart.split("-")[0];
+  const community = hashPart.split("-")[1];
+  
+  if (window.location.hash === '') {
+    window.location.href = "#home";
+  }
+
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().slice(0, -5);
+    return formattedDate;
+  }
+  //event listener for login
+  document.getElementById("signupSubmit").addEventListener('submit',function(e){
+    const uname = document.getElementById("email").value;
+    const psw = document.getElementById("psw").value;
+    if(!uname.endsWith(".edu")){
+      document.getElementById("email").value='';
+      document.getElementById("email").placeholder="Not a valid .edu email...";
+    }else{
+      document.getElementById("signup").style.display="none";
+
+      const postUrl = `https://signup-ulom5v45wa-uc.a.run.app/?uname=${uname}&psw=${psw}/`;
+      console.log(postUrl);
+      // Perform a POST request to Firebase
+      fetch(postUrl, {
+        method: 'POST',
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        // Clear form fields
+        document.getElementById('email').value = '';
+        document.getElementById('psw').value = '';
+        // Refresh posts
+        filterPosts(category, community);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+  });
+
   // Event Listener for form submission
-  document.getElementById('newPostForm').children[0].addEventListener('submit', function(e) {
+  document.getElementById('postContent').addEventListener('submit', function(e) {
     e.preventDefault();
     
     // Extract form field values
     const title = document.getElementById('postTitle').value;
-    const content = document.getElementById('postContent').value;
+    const content = document.getElementById('postDesc').value;
+    document.getElementById('newPostModal').style.display='none';
     const category = window.location.hash.substr(1).split("-")[0];
     const community = window.location.hash.substr(1).split("-")[1];
     
@@ -105,7 +208,8 @@
     const newPost = {
       title: title,
       content: content,
-      upvotes: 0
+      upvotes: 0,
+      date: getCurrentDate(),
     };
     
     // Firebase endpoint for storing posts
@@ -121,23 +225,13 @@
       console.log('Success:', data);
       // Clear form fields
       document.getElementById('postTitle').value = '';
-      document.getElementById('postContent').value = '';
+      document.getElementById('postDesc').value = '';
       // Refresh posts
       filterPosts(category, community);
     })
     .catch((error) => {
       console.error('Error:', error);
     });
-  });
-
-  window.addEventListener('DOMContentLoaded', function() {
-    const hashPart = window.location.hash.substr(1);
-    
-    document.getElementById('location').textContent = hashPart;
-    const category = hashPart.split("-")[0];
-    const community = hashPart.split("-")[1];
-
-    filterPosts(category, community);
   });
 
   // Function to filter and display posts
@@ -148,25 +242,25 @@
       document.getElementById('location').textContent = `${category}`;
     }
 
-      const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
-      
-      fetch(fetchUrl)
-      .then(response => response.json())
-      .then(data => updatePosts(data));
-    }
+    const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
     
-    function updatePosts(posts) {
-      const container = document.getElementById('mainContainer');
-      container.innerHTML = '';
-      for (const postId in posts) {
-        const post = posts[postId];
-        const postDiv = document.createElement('div');
-        postDiv.id = postId;
-        postDiv.className = 'post';
+    fetch(fetchUrl)
+    .then(response => response.json())
+    .then(data => updatePosts(data));
+  }
     
-        // Create a div for upvote button and vote count
-        const upvoteInfo = document.createElement('div');
-        upvoteInfo.className = 'upvote-info';
+  function updatePosts(posts) {
+    const container = document.getElementById('mainContainer');
+    container.innerHTML = '';
+    for (const postId in posts) {
+      const post = posts[postId];
+      const postDiv = document.createElement('div');
+      postDiv.id = postId;
+      postDiv.className = 'post';
+  
+      // Create a div for upvote button and vote count
+      const upvoteInfo = document.createElement('div');
+      upvoteInfo.className = 'upvote-info';
 
       // Create upvote button
       const upvoteButton = document.createElement('div');
@@ -184,68 +278,107 @@
       const postContentDiv = document.createElement('div');
 
       postContentDiv.className = 'post-content';
+      postContentDiv.style.width = '95%';
       postContentDiv.style.justifyContent = "space-evenly"
 
       // Create post content elements
       const postTitle = document.createElement('div');
       postTitle.className = 'post-title';
-      postTitle.innerText = `Title: ${post.title}`;
+      postTitle.innerText = `${post.title}`;
   
       const postContent = document.createElement('div');
       postContent.className = 'post-content-text';
-      postContent.innerText = `Content: ${post.content}`;
+      postContent.innerText = `${post.content}`;
 
-        upvoteButton.addEventListener('click', function() {
-          const hashPart = window.location.hash.substr(1);
-          
-          const category = hashPart.split("-")[0];
-          const community = hashPart.split("-")[1];
-          
-          const postUrl = `${upvoteRequestURL}?category=${category}&community=${community}&postid=${postId}`;
-          console.log(postUrl);
-          // Perform a POST request to post api
-          fetch(postUrl, {
-            method: 'POST',
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Success:', data);
+      const postDate = document.createElement('div');
+      postDate.className = 'post-date';
+      if(post.date!=undefined){
+        months=["January","February","March","April","May","June","July","August","September","October","November","December"];
+        postDate.innerText = `posted ${post.date.split("T")[0].split("-")[2]} ${months[post.date.split("-")[1]-1]}, ${post.date.split("-")[0]} at ${post.date.split("T")[1]}`;    
+      }
 
-            post.upvotes++;
-            voteCount.innerText = post.upvotes;
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
-        });
-    
-        // Append upvote button and vote count to the upvoteInfo div
-        upvoteInfo.appendChild(upvoteButton);
-        upvoteInfo.appendChild(voteCount);
-        upvoteInfo.style.width = "50px";
+      upvoteButton.addEventListener('click', function() {
+        const hashPart = window.location.hash.substr(1);
+        
+        const category = hashPart.split("-")[0];
+        const community = hashPart.split("-")[1];
+        
+        const postUrl = `${upvoteRequestURL}?category=${category}&community=${community}&postid=${postId}`;
+        console.log(postUrl);
+        // Perform a POST request to post api
+        fetch(postUrl, {
+          method: 'POST',
+        })
+        /*.then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+
+          post.upvotes++;
+          voteCount.innerText = post.upvotes;
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });*/
+        post.upvotes++;
+        voteCount.innerText = post.upvotes;
+      });
+  
+      // Create a flag/report button
+      const flagButton = document.createElement('button');
+      flagButton.innerText = 'Report';
+      flagButton.className = 'flag-button';
+
+       // Add an event listener to handle flagging/reporting
+      flagButton.addEventListener('click', function() {
+      // Get the title and content from the post object
+      //const postTitle = post.title;
+      //const postContent = post.content;
+      const postId = postDiv.id; // Get the postId from the postDiv id
+
+      // Redirect to the report.html page with title and content as query parameters
+      const reportUrl = `report.html?postId=${encodeURIComponent(postId)}`;
+      window.location.href = reportUrl;
+      });
+
+      // Append the flag button to the flagContainer
+      // flagContainer.appendChild(flagButton);
+      // Append upvote button and vote count to the upvoteInfo div
+      upvoteInfo.appendChild(upvoteButton);
+      upvoteInfo.appendChild(voteCount);
+      upvoteInfo.style.width = "50px";
 
   
       // Append post title and content to postContentDiv
       postContentDiv.appendChild(postTitle);
       postContentDiv.appendChild(postContent);
+      postContentDiv.appendChild(postDate);
 
       postContentDivParent.appendChild(upvoteInfo)
       postContentDivParent.appendChild(postContentDiv)
+
+      postContentDivParent.appendChild(flagButton);
+
 
       postDiv.appendChild(postContentDivParent);
       container.appendChild(postDiv);
       
       postContentDivParent.style.display = "flex";
       postContentDivParent.style.display = "flex";
+      }
     }
-  }
-
-  function openForm() {
-    document.getElementById("newPostForm").style.display = "block";
-  }
-
-  function closeForm() {
-    document.getElementById("newPostForm").style.display = "none";
+  function sortBy(byWhat){
+    document.getElementById("sortbtn-top").style.color="black";
+    document.getElementById("sortbtn-new").style.color="black";
+    document.getElementById("sortbtn-school").style.color="black";
+    switch(byWhat){
+      case 0: document.getElementById("sortbtn-top").style.color="red";
+      //TODO: filter posts
+      break;
+      case 1: document.getElementById("sortbtn-new").style.color="red";
+      break;
+      case 2: document.getElementById("sortbtn-school").style.color="red";
+      break;
+    }
   }
 
   window.addEventListener('DOMContentLoaded', function() {

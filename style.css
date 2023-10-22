@@ -1,25 +1,99 @@
 body{
-    background-color: dimgray;
+  background-color: dimgray;
 }
 
 h1{
-    color:white;
-    margin-left: 20px;
+  color:white;
+  margin-left: 20px;
 }
 .post {
-    border: 1px solid #cccccc;
-    padding: 20px;
-    margin: 20px;
-    color: white;
+  border: 1px solid #cccccc;
+  padding: 20px;
+  margin: 20px;
+  color: white;
 }
 .upvote {
+cursor: pointer;
+color: rgba(255, 2, 2, 0.772);
+}
+.upvote:hover {
   cursor: pointer;
-  color: rgba(238, 8, 8, 0.772);
+  color: #bd2929; /* Change the background color on hover */
 }
 input[type=text]:focus{
-    outline:none;
-    border: 3px solid #555;
+  outline:none;
+  border: 3px solid #555;
 }
+/* Navbar container */
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  font-family: Arial;
+}
+
+/* Links inside the navbar */
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* The dropdown container */
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn{
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Add a red background color to navbar links on hover */
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: black;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+} 
+
  /* Navbar container */
  .navbar {
     overflow: hidden;
@@ -55,8 +129,8 @@ input[type=text]:focus{
     margin: 0; /* Important for vertical align on mobile phones */
   }
   
-  /* Add a red background color to navbar links on hover */
-  .navbar a:hover, .dropdown:hover .dropbtn {
+  /* Add a black background color to navbar links on hover */
+  .navbar a:hover, .dropdown:hover .dropbtn, .login:hover{
     background-color: black;
   }
   
@@ -94,14 +168,9 @@ input[type=text]:focus{
   .open-button {
     background-color: #555;
     color: white;
-    padding: 16px 20px;
-    border: none;
     cursor: pointer;
     opacity: 0.8;
     position: fixed;
-    bottom: 23px;
-    right: 28px;
-    width: 280px;
   }
   
   /* The popup form - hidden by default */
@@ -119,16 +188,19 @@ input[type=text]:focus{
     max-width: 300px;
     padding: 10px;
     background-color: white;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   /* Full-width input fields */
   .form-container input[type=text], .form-container input[type=password] {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
-    border: none;
-    background: #f1f1f1;
-  }
+      width: 100%;
+      padding: 12px 20px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      resize: none;
+    }
   
   /* When the inputs get focus, do something */
   .form-container input[type=text]:focus, .form-container input[type=password]:focus {
@@ -143,7 +215,7 @@ input[type=text]:focus{
     padding: 16px 20px;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: 300px;
     margin-bottom:10px;
     opacity: 0.8;
   }
@@ -156,7 +228,18 @@ input[type=text]:focus{
   /* Add some hover effects to buttons */
   .form-container .btn:hover, .open-button:hover {
     opacity: 1;
-  } 
+  }
+
+  .login{
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+  }
 
 
 #search{
@@ -185,14 +268,14 @@ input[type=text]:focus{
   position:absolute;
   right:51%;
   top:70px;
-  font-size:140%;
+  font-size:18px;
   text-align:center;
   text-overflow: ellipsis;
-  line-height: 10px;
+  font-family: inherit;
 }
+
 .login{
-  position: absolute;
-  right:9px;
+  float:right;
 }
 
 #mainContainer{
@@ -240,4 +323,166 @@ input[type=text]:focus{
 .vote-count {
     text-align: center;
     padding-right: 20px;
+}
+
+
+
+ /* The Modal (background) */
+ .modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: none;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 40px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 30%;
+  margin-top: 0;
+  border: 2px solid black;
+  width: 40%;
+}
+
+/* The Close Button */
+.close {
+  /* Position it in the top right corner outside of the modal */
+  position: fixed;
+  right: 27%;
+  top: 140px;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+/* Close button on hover */
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)}
+  to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+  from {transform: scale(0)}
+  to {transform: scale(1)}
+} 
+
+.avatar{
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  width:25%;
+}
+
+.dialog-header{
+  color:black;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  text-align: center;
+}
+
+.post-title{
+  text-decoration-line: underline;
+  font-size: 24px;
+  color:white;
+  padding-bottom: 6px;
+}
+.post-content{
+  text-overflow: ellipsis;
+  text-wrap:wrap;
+}
+.post-date{
+  padding-top: 6px;
+  margin-right: auto;
+  bottom:0;
+  font-size:12px;
+}
+.big-input{
+  height:150px;
+  text-wrap: wrap;
+  text-align: start;
+}
+
+.flag-button {
+  background-color: #000000; /* Set the background color */
+  color: white; /* Set the text color */
+  border: none; /* Remove the border */
+  padding: 10px 20px; /* Adjust the padding as needed */
+  cursor: pointer; /* Add a pointer cursor on hover */
+}
+
+.flag-button:hover {
+  background-color: #202020; /* Change the background color on hover */
+}
+#flagContainer{
+  position: absolute;
+  width: 5%;
+  height: 10.5%; 
+  top: 8.8em;
+  right: 1em;
+  font-size: 18px;
+} 
+
+/* report.html file stuff */
+
+.center-screen {
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin-top: 15%;
+}
+
+.label-container {
+  text-align: center;
+  width: 60%;
+  /* width: 100%; */
+  margin: 10px auto; /* Center the label container horizontally and add some margin */
+  background-color: #fff; /* Set your desired background color for the label container */
+  border-radius: 8px;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+}
+
+.label-container label {
+  font-weight: bold;
+  /* margin-right: 10px; */
+}
+
+.square-container {
+  width: 300px;
+  height: 300px;
+  background-color: #fff; /* Set your desired background color for the square container */
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto; /* Center the square container horizontally and add some margin */
+}
+.center-container {
+  text-align: center;
+}
+/* Stack the textbox and submit button */
+#reportTextBox, #backButton {
+  margin: 5px 0;
 }

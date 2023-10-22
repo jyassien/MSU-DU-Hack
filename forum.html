@@ -218,7 +218,7 @@
         fetch(postUrl, {
           method: 'POST',
         })
-        .then(response => response.json())
+        /*.then(response => response.json())
         .then(data => {
           console.log('Success:', data);
 
@@ -227,7 +227,9 @@
         })
         .catch((error) => {
           console.error('Error:', error);
-        });
+        });*/
+        post.upvotes++;
+        voteCount.innerText = post.upvotes;
       });
   
       // Append upvote button and vote count to the upvoteInfo div

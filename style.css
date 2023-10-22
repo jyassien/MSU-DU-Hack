@@ -44,7 +44,7 @@ input[type=text]:focus{
   }
   
   /* Dropdown button */
-  .dropdown .dropbtn {
+  .dropdown .dropbtn{
     font-size: 16px;
     border: none;
     outline: none;
@@ -57,7 +57,7 @@ input[type=text]:focus{
   
   /* Add a red background color to navbar links on hover */
   .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: red;
+    background-color: black;
   }
   
   /* Dropdown content (hidden by default) */
@@ -157,15 +157,79 @@ input[type=text]:focus{
   .form-container .btn:hover, .open-button:hover {
     opacity: 1;
   } 
-  input[type=text] {
-    width: 100%;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: white;
-    background-image: url('search.png');
-    background-position: 10px 10px; 
-    background-repeat: no-repeat;
-    padding: 12px 20px 12px 40px;
-  }
+
+
+#search{
+  width: 50%;
+  top:70px;
+  position: absolute;
+  right:8px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-image: url('search.png');
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+} 
+#location{
+  position: absolute;
+  left:10px;
+  top:55px;
+}
+#openNewPost{
+  width:10%;
+  height:48px;
+  position:absolute;
+  right:51%;
+  top:70px;
+  font-size:140%;
+  text-align:center;
+  text-overflow: ellipsis;
+  line-height: 10px;
+}
+.login{
+  position: absolute;
+  right:9px;
+}
+
+#mainContainer{
+  width:96%;
+  position:absolute;
+  right:0;
+  top:140px;
+}
+.sorting{
+    fill:none;
+    display:inline;
+    position:absolute;
+    font-size: 14px;
+    left:20px;
+    top:110px;
+    border: none;
+    outline: none;
+    color: black;
+    padding: 14px 16px;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+}
+
+.button-2 {
+  background-color: dimgray;
+  border-width: 0;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  text-align: center;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}

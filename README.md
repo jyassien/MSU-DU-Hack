@@ -7,9 +7,11 @@ Project By: Team 9
 - Luke Farchione
 - Brian Mulder
 
-Project: Service Needed Reporting System for a Campus or Organization
+**Project:**
+Service Needed Reporting System for a Campus or Organization
 
-Type: Ticketing System with Upvoting for Promotion
+**Type:**
+Ticketing System with Upvoting for Promotion
 
 **INSERT SCREENSHOT**
 

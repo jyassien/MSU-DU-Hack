@@ -146,6 +146,12 @@
 
     // Function to filter and display posts
     function filterPosts(category, community) {
+      if (community) {
+        document.getElementById('location').textContent = `${category}-${community}`;
+      } else {
+        document.getElementById('location').textContent = `${category}`;
+      }
+
       const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
       
       fetch(fetchUrl)
@@ -228,7 +234,12 @@
   }
   
   window.addEventListener('DOMContentLoaded', function() {
-      filterPosts();
+      const hashPart = window.location.hash.substr(1);
+      
+      const category = hashPart.split("-")[0];
+      const community = hashPart.split("-")[1];
+
+      filterPosts(category, community);
   });
 
   </script>

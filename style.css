@@ -55,8 +55,8 @@ input[type=text]:focus{
     margin: 0; /* Important for vertical align on mobile phones */
   }
   
-  /* Add a red background color to navbar links on hover */
-  .navbar a:hover, .dropdown:hover .dropbtn {
+  /* Add a black background color to navbar links on hover */
+  .navbar a:hover, .dropdown:hover .dropbtn, .login:hover{
     background-color: black;
   }
   
@@ -119,6 +119,9 @@ input[type=text]:focus{
     max-width: 300px;
     padding: 10px;
     background-color: white;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   /* Full-width input fields */
@@ -128,6 +131,8 @@ input[type=text]:focus{
     margin: 5px 0 22px 0;
     border: none;
     background: #f1f1f1;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   /* When the inputs get focus, do something */
@@ -156,7 +161,18 @@ input[type=text]:focus{
   /* Add some hover effects to buttons */
   .form-container .btn:hover, .open-button:hover {
     opacity: 1;
-  } 
+  }
+
+  .login{
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+  }
 
 
 #search{
@@ -191,8 +207,7 @@ input[type=text]:focus{
   line-height: 10px;
 }
 .login{
-  position: absolute;
-  right:9px;
+  float:right;
 }
 
 #mainContainer{
@@ -240,4 +255,78 @@ input[type=text]:focus{
 .vote-count {
     text-align: center;
     padding-right: 20px;
+}
+
+
+
+ /* The Modal (background) */
+ .modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 120px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 20px auto; /* 15% from the top and centered */
+  border: 2px solid black;
+  width: 48%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  /* Position it in the top right corner outside of the modal */
+  position: fixed;
+  right: 27%;
+  top: 140px;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+/* Close button on hover */
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)}
+  to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+  from {transform: scale(0)}
+  to {transform: scale(1)}
+} 
+
+.avatar{
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  width:25%;
+}
+
+.dialog-header{
+  color:black;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  text-align: center;
 }

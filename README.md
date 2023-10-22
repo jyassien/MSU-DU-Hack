@@ -16,55 +16,60 @@ Ticketing System with Upvoting for Promotion
 **INSERT SCREENSHOT**
 
 **Table of Contents:**
-List the sections of your README for easy navigation.
-   
-**Usage:**
+1.	Usage
+2.	Feature
+3.	Demo Link
+4.	Technologies Used
+5.	Known Issues
+6.	Future Development
+7.	Acknowledgements
+8.	Contact Information
+9.	Documentation
+10.	Changelog
+11.	Contributions
+12.	Testing
+
+ **1.  Usage:**
    - Describe how to use your project.
    - Provide code examples or use cases.
    - Include any configuration or setup instructions.
 
-**Features:**
+**2. Features:**
    - List the key features of your project.
    - Highlight what makes your project unique or useful.
 
-**Demo Link:**
+**3. Demo Link:**
    - If your project is deployed online, provide a link for judges and users to try it out.
 
-**Technologies Used:**
+**4. Technologies Used:**
    - List the technologies, frameworks, and libraries you used in your project.
 
-**Team Members:**
-  - Mention the names and roles of your team members.
-
-**Contributing:**
-    - Explain how others can contribute to your project.
-    - Include guidelines for pull requests and contributions.
-
-**Known Issues:**
+**5. Known Issues:**
     - Mention any known bugs or issues, if applicable.
 
-**Future Development:**
+**6. Future Development:**
     - Share your plans for future development.
     - List features or improvements you'd like to add.
 
-**Acknowledgments:**
-    - Give credit to any external resources, libraries, or tools you used.
+**7. Acknowledgments:**
+ - Give credit to any external resources, libraries, or tools you used.
 
-**Contact Information:**
-    - Provide a way for users to get in touch with you or your team.
+**8. Contact Information:**
+ - Provide a way for users to get in touch with you or your team.
 
-**Badges:**
-    - If applicable, add badges indicating build status, code coverage, or any other relevant information.
+**9. Documentation:**
+ - Include links to additional documentation or resources if available.
 
-**Documentation:**
-    - Include links to additional documentation or resources if available.
+**10. Changelog:**
+ - Keep a changelog to track updates and new features.
 
-**Changelog:**
-    - Keep a changelog to track updates and new features.
+**11. Contributors:**
+- Keegan Nelson – Multiple coding commits with bug fixes and database development
+- Derek Rodriguez – Front-end development with focus on CSS 
+- Jihadu Yassien – Principal database development and integration into development environment and final product
+- Bennett Kaufmann – Front-end coding for functionality and addressed and resolved bugs in collaborative effort
+- Luke Farchione - Front-end coding and html development of the app environment for functionality and top-tier bug resolution.  
+- Brian Mulder – Documentation specialist and user testing
 
-**Contributors:**
-    - List contributors and their contributions.
-
-**Testing:**
+**12. Testing:**
     - Explain how to run tests for your project.
-

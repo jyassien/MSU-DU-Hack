@@ -7,37 +7,46 @@
   <title>Report Page</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="center-container">
-    <!-- Include a container for the fetched content -->
-    <div id="container"></div>
-
-    <!-- Add a textbox -->
-    <input type="text" id="reportTextBox" placeholder="Enter report reason">
-
-    <!-- Add a button to go back to the forum -->
-    <button id="backButton">Submit</button>
+  <div class="report-container center-screen">
+    <div class="label-container">
+      <label for="reportTextBox">Title:</label>
+      <label for="reportTextBox">Content:</label>
+    </div>
+    <div class="square-container">
+      <div id="container" class="center-container">
+        <!-- Add a textbox -->
+        <input type="text" id="reportTextBox" placeholder="Enter report reason">
+    
+        <!-- Add a button to go back to the forum -->
+        <button id="backButton">Submit</button>
+      </div>
+    </div>
   </div>
-
   <script>
-    // Fetch content from file1.html
-    fetch('forum.html')
-      .then(response => response.text())
-      .then(data => {
-        // Create a temporary div
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = data;
+    // Get the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    // Get the postId parameter
+    const postId = urlParams.get('postId');
 
-        // Extract the div with id "includedDiv"
-        const includedDiv = tempDiv.querySelector('#includedDiv');
+    //console.log(postId);
 
-        // Get the container in file2.html
-        const container = document.getElementById('container');
+    function fetchPostDetails(postId) {
+      const apiUrl = `https://msuduhackton.firebaseio.com/posts/${postId}`; // Replace with your API endpoint
+      return fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json(); // Assuming the response is in JSON format
+        })
+        .then(data => {
+          const { title, content } = data; // Assuming the API response has 'title' and 'content' fields
+          return { title, content };
+        })
+        .catch(error => console.error('Error fetching post details:', error));
+    }
 
-        // Append the included div to the container
-        container.appendChild(includedDiv);
-      });
     document.getElementById('backButton').addEventListener('click', function() {
       //Want this to go back to the location you were just at. Need to look at the url that was in the forum.html
       window.location.href = 'forum.html';

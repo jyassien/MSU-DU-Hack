@@ -121,7 +121,7 @@
 
     <div class="form-container">
       <label for="uname"><b>Email</b></label>
-      <input type="text" placeholder="Enter email" id="email" required>
+      <input type="text" placeholder="Enter school email" id="email" required>
 
       <label for="psw"><b>Password</b></label>
       <input type="password" placeholder="Enter Password" id="psw" required>
@@ -166,25 +166,31 @@
   document.getElementById("signupSubmit").addEventListener('submit',function(e){
     const uname = document.getElementById("email").value;
     const psw = document.getElementById("psw").value;
+    if(!uname.endsWith(".edu")){
+      document.getElementById("email").value='';
+      document.getElementById("email").placeholder="Not a valid .edu email...";
+    }else{
+      document.getElementById("signup").style.display="none";
 
-    const postUrl = `https://signup-ulom5v45wa-uc.a.run.app/?uname=${uname}&psw=${psw}/`;
-    console.log(postUrl);
-    // Perform a POST request to Firebase
-    fetch(postUrl, {
-      method: 'POST',
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      // Clear form fields
-      document.getElementById('email').value = '';
-      document.getElementById('psw').value = '';
-      // Refresh posts
-      filterPosts(category, community);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+      const postUrl = `https://signup-ulom5v45wa-uc.a.run.app/?uname=${uname}&psw=${psw}/`;
+      console.log(postUrl);
+      // Perform a POST request to Firebase
+      fetch(postUrl, {
+        method: 'POST',
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        // Clear form fields
+        document.getElementById('email').value = '';
+        document.getElementById('psw').value = '';
+        // Refresh posts
+        filterPosts(category, community);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
   });
 
   // Event Listener for form submission

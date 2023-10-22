@@ -56,9 +56,8 @@
 
 <div class="sorting">
     <span>sort by</span>
-    <button class="button-2" id="sortbtn-top" onclick="sortBy(0)">top</button>
-    <button class="button-2" id="sortbtn-new" onclick="sortBy(1)">new</button>
-    <button class="button-2" id="sortbtn-school" onclick="sortBy(2)">school</button>
+    <button class="button-2" id="sortbtn-top" onclick="cat = window.location.hash.substr(1).split('-')[0]; com = window.location.hash.substr(1).split('-')[1];sortBy(0); sortfunc = (post) => post.upvotes; filterPosts(cat, com)">top</button>
+    <button class="button-2" id="sortbtn-new" onclick="cat = window.location.hash.substr(1).split('-')[0]; com = window.location.hash.substr(1).split('-')[1];sortBy(1); sortfunc = (post) => post.date; filterPosts(cat, com)">new</button>
 </div>
 
 
@@ -140,6 +139,8 @@
 <div id="mainContainer"></div>
 
 <script>
+  let sortfunc;
+  sortBy(1);
   // Database URL
   const firebaseDatabaseURL = "https://msuduhackton.firebaseio.com";
   // Upvote adding URL
@@ -192,6 +193,20 @@
       });
     }
   });
+
+  function sortBy(byWhat){
+    document.getElementById("sortbtn-top").style.color="black";
+    document.getElementById("sortbtn-new").style.color="black";
+    switch(byWhat){
+      case 0: document.getElementById("sortbtn-top").style.color="red";
+      //TODO: filter posts
+      break;
+      case 1: document.getElementById("sortbtn-new").style.color="red";
+      break;
+      case 2: document.getElementById("sortbtn-school").style.color="red";
+      break;
+    }
+  }
 
   // Event Listener for form submission
   document.getElementById('postContent').addEventListener('submit', function(e) {
@@ -258,8 +273,6 @@
           }
         }
 
-        console.log(posts);
-
         updatePosts(posts);
       })
     } else {
@@ -272,10 +285,22 @@
   }
     
   function updatePosts(posts) {
+    if (!sortfunc) sortfunc = (post) => 0;
     const container = document.getElementById('mainContainer');
     container.innerHTML = '';
+
+    let postssorted = [];
     for (const postId in posts) {
-      const post = posts[postId];
+      postssorted.push([postId, posts[postId]]);
+    }
+    
+    postssorted.sort((a, b) => sortfunc(b[1]) - sortfunc(a[1]));
+    
+    console.log(postssorted);
+
+    for (const postdata of postssorted) {
+      const postId = postdata[0];
+      const post = postdata[1];
       const postDiv = document.createElement('div');
       postDiv.id = postId;
       postDiv.className = 'post';
@@ -388,20 +413,6 @@
       postContentDivParent.style.display = "flex";
       }
     }
-  function sortBy(byWhat){
-    document.getElementById("sortbtn-top").style.color="black";
-    document.getElementById("sortbtn-new").style.color="black";
-    document.getElementById("sortbtn-school").style.color="black";
-    switch(byWhat){
-      case 0: document.getElementById("sortbtn-top").style.color="red";
-      //TODO: filter posts
-      break;
-      case 1: document.getElementById("sortbtn-new").style.color="red";
-      break;
-      case 2: document.getElementById("sortbtn-school").style.color="red";
-      break;
-    }
-  }
 
   window.addEventListener('DOMContentLoaded', function() {
     const hashPart = window.location.hash.substr(1);

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,137 +130,169 @@
 </div>
 
 
-  <!-- Main container for all posts -->
-  <div id="mainContainer"></div>
- 
-  <script>  
+<!-- Main container for all posts -->
+<div id="mainContainer"></div>
 
-    // Database URL
-    const firebaseDatabaseURL = "https://msuduhackton.firebaseio.com";
+<script>
+  // Database URL
+  const firebaseDatabaseURL = "https://msuduhackton.firebaseio.com";
+  // Upvote adding URL
+  const upvoteRequestURL = "https://upvote-ulom5v45wa-uc.a.run.app";
+  
+  // Add your auth token here
+  const authToken = 'Qo48kLx2pbVoBJOC6dJhslRm35319dam4oOPwfwg';
+
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().slice(0, -5);
+    return formattedDate;
+  }
+
+  // Event Listener for form submission
+  document.getElementById('newPostForm').children[0].addEventListener('submit', function(e) {
+    e.preventDefault();
     
-    // Add your auth token here
-    const authToken = 'Qo48kLx2pbVoBJOC6dJhslRm35319dam4oOPwfwg';
-
-    // Event Listener for form submission
-    document.getElementById('newPostForm').children[0].addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Extract form field values
-      const title = document.getElementById('postTitle').value;
-      const content = document.getElementById('postContent').value;
-      const category = window.location.hash.substr(1).split("-")[0];
-      const community = window.location.hash.substr(1).split("-")[1];
-      
-      // Create a new post object
-      const newPost = {
-        title: title,
-        content: content,
-        upvotes: 0
-      };
-      
-      // Firebase endpoint for storing posts
-      const postUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
-      console.log(postUrl);
-      // Perform a POST request to Firebase
-      fetch(postUrl, {
-        method: 'POST',
-        body: JSON.stringify(newPost)
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        // Clear form fields
-        document.getElementById('postTitle').value = '';
-        document.getElementById('postContent').value = '';
-        // Refresh posts
-        filterPosts(category, community);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-    });
-
-    window.addEventListener('DOMContentLoaded', function() {
-      const hashPart = window.location.hash.substr(1);
-      
-      document.getElementById('location').textContent = hashPart;
-      const category = hashPart.split("-")[0];
-      const community = hashPart.split("-")[1];
-
+    // Extract form field values
+    const title = document.getElementById('postTitle').value;
+    const content = document.getElementById('postContent').value;
+    const category = window.location.hash.substr(1).split("-")[0];
+    const community = window.location.hash.substr(1).split("-")[1];
+    
+    // Create a new post object
+    const newPost = {
+      title: title,
+      content: content,
+      upvotes: 0,
+      date: getCurrentDate(),
+    };
+    
+    // Firebase endpoint for storing posts
+    const postUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
+    console.log(postUrl);
+    // Perform a POST request to Firebase
+    fetch(postUrl, {
+      method: 'POST',
+      body: JSON.stringify(newPost)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      // Clear form fields
+      document.getElementById('postTitle').value = '';
+      document.getElementById('postContent').value = '';
+      // Refresh posts
       filterPosts(category, community);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
     });
+  });
 
-    // Function to filter and display posts
-    function filterPosts(category, community) {
-      if (community) {
-        document.getElementById('location').textContent = `${category}-${community}`;
-      } else {
-        document.getElementById('location').textContent = `${category}`;
-      }
+  window.addEventListener('DOMContentLoaded', function() {
+    const hashPart = window.location.hash.substr(1);
+    
+    document.getElementById('location').textContent = hashPart;
+    const category = hashPart.split("-")[0];
+    const community = hashPart.split("-")[1];
 
-      const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
-      
-      fetch(fetchUrl)
-      .then(response => response.json())
-      .then(data => updatePosts(data));
+    filterPosts(category, community);
+  });
+
+  // Function to filter and display posts
+  function filterPosts(category, community) {
+    if (community) {
+      document.getElementById('location').textContent = `${category}-${community}`;
+    } else {
+      document.getElementById('location').textContent = `${category}`;
     }
-    
-    function updatePosts(posts) {
-      const container = document.getElementById('mainContainer');
-      container.innerHTML = '';
-      for (const postId in posts) {
-        const post = posts[postId];
-        const postDiv = document.createElement('div');
-        postDiv.className = 'post';
-    
-        // Create a div for upvote button and vote count
-        const upvoteInfo = document.createElement('div');
-        upvoteInfo.className = 'upvote-info';
 
-        // Create upvote button
-        const upvoteButton = document.createElement('div');
-        upvoteButton.className = 'upvote';
-        upvoteButton.innerHTML = '&#9650;';
+    const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
     
-        // Create vote count
-        const voteCount = document.createElement('div');
-        voteCount.className = 'vote-count';
-        voteCount.innerText = post.upvotes;
+    fetch(fetchUrl)
+    .then(response => response.json())
+    .then(data => updatePosts(data));
+  }
+    
+  function updatePosts(posts) {
+    const container = document.getElementById('mainContainer');
+    container.innerHTML = '';
+    for (const postId in posts) {
+      const post = posts[postId];
+      const postDiv = document.createElement('div');
+      postDiv.id = postId;
+      postDiv.className = 'post';
+  
+      // Create a div for upvote button and vote count
+      const upvoteInfo = document.createElement('div');
+      upvoteInfo.className = 'upvote-info';
 
-        // Create a div for post content
+      // Create upvote button
+      const upvoteButton = document.createElement('div');
+      upvoteButton.className = 'upvote';
+      upvoteButton.innerHTML = '&#9650;';
+  
+      // Create vote count
+      const voteCount = document.createElement('div');
+      voteCount.className = 'vote-count';
+      voteCount.innerText = post.upvotes;
+
+      // Create a div for post content
+      
+      const postContentDivParent = document.createElement('div');
+      const postContentDiv = document.createElement('div');
+
+      postContentDiv.className = 'post-content';
+      postContentDiv.style.justifyContent = "space-evenly"
+
+      // Create post content elements
+      const postTitle = document.createElement('div');
+      postTitle.className = 'post-title';
+      postTitle.innerText = `Title: ${post.title}`;
+  
+      const postContent = document.createElement('div');
+      postContent.className = 'post-content-text';
+      postContent.innerText = `Content: ${post.content}`;
+
+      const postDate = document.createElement('div');
+      postDate.className = 'post-date';
+      postDate.innerText = `Created: ${post.date}`;
+
+      upvoteButton.addEventListener('click', function() {
+        const hashPart = window.location.hash.substr(1);
         
-        const postContentDivParent = document.createElement('div');
-        const postContentDiv = document.createElement('div');
+        const category = hashPart.split("-")[0];
+        const community = hashPart.split("-")[1];
+        
+        const postUrl = `${upvoteRequestURL}?category=${category}&community=${community}&postid=${postId}`;
+        console.log(postUrl);
+        // Perform a POST request to post api
+        fetch(postUrl, {
+          method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
 
-        postContentDiv.className = 'post-content';
-        postContentDiv.style.justifyContent = "space-evenly"
-
-        // Create post content elements
-        const postTitle = document.createElement('div');
-        postTitle.className = 'post-title';
-        postTitle.innerText = `Title: ${post.title}`;
-    
-        const postContent = document.createElement('div');
-        postContent.className = 'post-content-text';
-        postContent.innerText = `Content: ${post.content}`;
-
-        upvoteButton.addEventListener('click', function() {
           post.upvotes++;
           voteCount.innerText = post.upvotes;
-        });  
-    
-        // Append upvote button and vote count to the upvoteInfo div
-        upvoteInfo.appendChild(upvoteButton);
-        upvoteInfo.appendChild(voteCount);
-        upvoteInfo.style.width = "50px";
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      });
+  
+      // Append upvote button and vote count to the upvoteInfo div
+      upvoteInfo.appendChild(upvoteButton);
+      upvoteInfo.appendChild(voteCount);
+      upvoteInfo.style.width = "50px";
 
-    
-        // Append post title and content to postContentDiv
-        postContentDiv.appendChild(postTitle);
-        postContentDiv.appendChild(postContent);
+      // Append post title and content to postContentDiv
+      postContentDiv.appendChild(postTitle);
+      postContentDiv.appendChild(postContent);
+      postContentDiv.appendChild(postDate);
 
-        postContentDivParent.appendChild(upvoteInfo)
-        postContentDivParent.appendChild(postContentDiv)
+      postContentDivParent.appendChild(upvoteInfo)
+      postContentDivParent.appendChild(postContentDiv)
 
         postDiv.appendChild(postContentDivParent);
         container.appendChild(postDiv);
@@ -293,18 +324,15 @@
   function closeForm() {
     document.getElementById("newPostForm").style.display = "none";
   }
-  
+
   window.addEventListener('DOMContentLoaded', function() {
-      const hashPart = window.location.hash.substr(1);
-      
-      const category = hashPart.split("-")[0];
-      const community = hashPart.split("-")[1];
+    const hashPart = window.location.hash.substr(1);
+    
+    const category = hashPart.split("-")[0];
+    const community = hashPart.split("-")[1];
 
-      filterPosts(category, community);
+    filterPosts(category, community);
   });
-
-  </script>
+</script>
 </body>
 </html>
-
-

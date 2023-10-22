@@ -44,7 +44,7 @@
 
 <div class="topStuff">
    <!-- A button to open the popup form -->
-   <button class="open-button" id="openNewPost" onclick="openForm()">New Post</button>
+   <button class="open-button" id="openNewPost" onclick="document.getElementById('newPostModal').style.display='block'">New Post</button>
 
    <h1 id="location"></h1>
    
@@ -62,21 +62,27 @@
 </div>
 
 
-<!-- The new post submission form -->
-<div class="form-popup" id="newPostForm">
-  <form class="form-container" action="">
-    <h1>New Post</h1>
+<!-- The new post modal -->
+<div id="newPostModal" class="modal">
+  <!-- Modal Content -->
+  <form class="modal-content animate" action="" id="postContent">
+    <h1 class="dialog-header">New Post</h1>
+    <div class="form-container">
+      <label for="title"><b>Title</b></label>
+      <input type="text" id="postTitle" placeholder="Enter title" name="title" required>
 
-    <label for="title"><b>Title</b></label>
-    <input type="text" placeholder="Enter title" name="title" id="postTitle" required>
+      <label for="desc"><b>Description</b></label>
+      <input type="text" class="big-input" id="postDesc" placeholder="Enter description" name="desc" required>
 
-    <label for="desc"><b>Description</b></label>
-    <input type="text" placeholder="Enter description" name="desc" id="postContent" required>
+      <button class="btn" type="submit" id="postBtn">Post</button>
+    </div>
 
-    <button type="submit" class="btn">Submit</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    <div class="form-container">
+      <button type="button" onclick="document.getElementById('newPostModal').style.display='none'" class="btn cancel">Cancel</button>
+      <!-- <span class="psw">Forgot <a href="#">password?</a></span> -->
+    </div>
   </form>
-</div> 
+</div>
 
 <!-- The Modal -->
 <div id="login" class="modal">
@@ -158,12 +164,13 @@
   }
 
   // Event Listener for form submission
-  document.getElementById('newPostForm').children[0].addEventListener('submit', function(e) {
+  document.getElementById('postContent').addEventListener('submit', function(e) {
     e.preventDefault();
     
     // Extract form field values
     const title = document.getElementById('postTitle').value;
-    const content = document.getElementById('postContent').value;
+    const content = document.getElementById('postDesc').value;
+    document.getElementById('newPostModal').style.display='none';
     const category = window.location.hash.substr(1).split("-")[0];
     const community = window.location.hash.substr(1).split("-")[1];
     
@@ -188,7 +195,7 @@
       console.log('Success:', data);
       // Clear form fields
       document.getElementById('postTitle').value = '';
-      document.getElementById('postContent').value = '';
+      document.getElementById('postDesc').value = '';
       // Refresh posts
       filterPosts(category, community);
     })
@@ -246,15 +253,18 @@
       // Create post content elements
       const postTitle = document.createElement('div');
       postTitle.className = 'post-title';
-      postTitle.innerText = `Title: ${post.title}`;
+      postTitle.innerText = `${post.title}`;
   
       const postContent = document.createElement('div');
       postContent.className = 'post-content-text';
-      postContent.innerText = `Content: ${post.content}`;
+      postContent.innerText = `${post.content}`;
 
       const postDate = document.createElement('div');
       postDate.className = 'post-date';
-      postDate.innerText = `Created: ${post.date}`;
+      if(post.date!=undefined){
+        months=["January","February","March","April","May","June","July","August","September","October","November","December"];
+        postDate.innerText = `posted ${post.date.split("T")[0].split("-")[2]} ${months[post.date.split("-")[1]-1]}, ${post.date.split("-")[0]}`;    
+      }
 
       upvoteButton.addEventListener('click', function() {
         const hashPart = window.location.hash.substr(1);
@@ -316,14 +326,6 @@
       case 2: document.getElementById("sortbtn-school").style.color="red";
       break;
     }
-  }
-
-  function openForm() {
-    document.getElementById("newPostForm").style.display = "block";
-  }
-
-  function closeForm() {
-    document.getElementById("newPostForm").style.display = "none";
   }
 
   window.addEventListener('DOMContentLoaded', function() {

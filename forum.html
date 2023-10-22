@@ -142,6 +142,15 @@
   // Add your auth token here
   const authToken = 'Qo48kLx2pbVoBJOC6dJhslRm35319dam4oOPwfwg';
 
+  const hashPart = window.location.hash.substr(1);
+
+  const category = hashPart.split("-")[0];
+  const community = hashPart.split("-")[1];
+  
+  if (window.location.hash === '') {
+    window.location.href = "#home";
+  }
+
   const getCurrentDate = () => {
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().slice(0, -5);
@@ -186,16 +195,6 @@
     .catch((error) => {
       console.error('Error:', error);
     });
-  });
-
-  window.addEventListener('DOMContentLoaded', function() {
-    const hashPart = window.location.hash.substr(1);
-    
-    document.getElementById('location').textContent = hashPart;
-    const category = hashPart.split("-")[0];
-    const community = hashPart.split("-")[1];
-
-    filterPosts(category, community);
   });
 
   // Function to filter and display posts

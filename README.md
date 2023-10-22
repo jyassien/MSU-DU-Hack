@@ -47,7 +47,7 @@ challenge-4e06e.webb.app/
 
 ### 5. Known Issues:
 - All possible security issues known and unknown.
-- 
+
 ### 6. Future Development:
 - Share your plans for future development.
 - List features or improvements you'd like to add.

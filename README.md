@@ -1,5 +1,5 @@
 # MSU-DU-Hack
-Project By: Team 9
+Project By: Cloud 9
 - Keegan Nelson
 - Derek Rodriguez
 - Jihadu Yassien

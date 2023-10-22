@@ -144,8 +144,8 @@
   const firebaseDatabaseURL = "https://msuduhackton.firebaseio.com";
   // Upvote adding URL
   const upvoteRequestURL = "https://upvote-ulom5v45wa-uc.a.run.app";
-  
-  // Add your auth token here
+
+// Add your auth token here
   const authToken = 'Qo48kLx2pbVoBJOC6dJhslRm35319dam4oOPwfwg';
 
   const hashPart = window.location.hash.substr(1);
@@ -242,11 +242,33 @@
       document.getElementById('location').textContent = `${category}`;
     }
 
-    const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
-    
-    fetch(fetchUrl)
-    .then(response => response.json())
-    .then(data => updatePosts(data));
+    if (category === "home" && !community) {
+      const fetchUrl = `${firebaseDatabaseURL}/posts.json?auth=${authToken}`;
+
+      fetch(fetchUrl)
+      .then(response => response.json())
+      .then(data => {
+        let posts = {};
+
+        for (const category of Object.values(data)) {
+          for (const community of Object.values(category)) {
+            for (const postId in community) {
+              posts[postId] = community[postId];
+            }
+          }
+        }
+
+        console.log(posts);
+
+        updatePosts(posts);
+      })
+    } else {
+      const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json`;
+
+      fetch(fetchUrl)
+      .then(response => response.json())
+      .then(data => updatePosts(data));
+    }
   }
     
   function updatePosts(posts) {

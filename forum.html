@@ -57,7 +57,7 @@
 <div class="sorting">
     <span>sort by</span>
     <button class="button-2" id="sortbtn-top" onclick="cat = window.location.hash.substr(1).split('-')[0]; com = window.location.hash.substr(1).split('-')[1];sortBy(0); sortfunc = (post) => post.upvotes; filterPosts(cat, com)">top</button>
-    <button class="button-2" id="sortbtn-new" onclick="cat = window.location.hash.substr(1).split('-')[0]; com = window.location.hash.substr(1).split('-')[1];sortBy(1); sortfunc = (post) => post.date; filterPosts(cat, com)">new</button>
+    <button class="button-2" id="sortbtn-new" onclick="cat = window.location.hash.substr(1).split('-')[0]; com = window.location.hash.substr(1).split('-')[1];sortBy(1); sortfunc = (post) => Date.parse(post.date); filterPosts(cat, com)">new</button>
 </div>
 
 
@@ -139,7 +139,7 @@
 <div id="mainContainer"></div>
 
 <script>
-  let sortfunc;
+  let sortfunc = (post) => Date.parse(post.date);
   sortBy(1);
   // Database URL
   const firebaseDatabaseURL = "https://msuduhackton.firebaseio.com";

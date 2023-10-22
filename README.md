@@ -16,55 +16,57 @@ Ticketing System with Upvoting for Promotion
 **INSERT SCREENSHOT**
 
 **Table of Contents:**
-List the sections of your README for easy navigation.
+1.	Usage
+2.	Feature
+3.	Demo Link
+4.	Technologies Used
+
    
-**Usage:**
+**1.  Usage:**
    - Describe how to use your project.
    - Provide code examples or use cases.
    - Include any configuration or setup instructions.
 
-**Features:**
+**2. Features:**
    - List the key features of your project.
    - Highlight what makes your project unique or useful.
 
-**Demo Link:**
+**3. Demo Link:**
    - If your project is deployed online, provide a link for judges and users to try it out.
 
-**Technologies Used:**
+**4. Technologies Used:**
    - List the technologies, frameworks, and libraries you used in your project.
 
-**Team Members:**
-  - Mention the names and roles of your team members.
-
-**Contributing:**
+**5. Contributing:**
     - Explain how others can contribute to your project.
     - Include guidelines for pull requests and contributions.
 
-**Known Issues:**
+**6. Known Issues:**
     - Mention any known bugs or issues, if applicable.
 
-**Future Development:**
+**8. Future Development:**
     - Share your plans for future development.
     - List features or improvements you'd like to add.
 
-**Acknowledgments:**
+**9. Acknowledgments:**
     - Give credit to any external resources, libraries, or tools you used.
 
-**Contact Information:**
+**10. Contact Information:**
     - Provide a way for users to get in touch with you or your team.
 
-**Badges:**
-    - If applicable, add badges indicating build status, code coverage, or any other relevant information.
-
-**Documentation:**
+**11. Documentation:**
     - Include links to additional documentation or resources if available.
 
-**Changelog:**
+**12. Changelog:**
     - Keep a changelog to track updates and new features.
 
-**Contributors:**
-    - List contributors and their contributions.
+**13. Contributors:**
+- Keegan Nelson – Multiple coding commits with bug fixes and database development
+- Derek Rodriguez – Front-end development with focus on CSS 
+- Jihadu Yassien – Principal database development and integration into development environment and final product
+- Bennett Kaufmann – Front-end coding for functionality and addressed and resolved bugs in collaborative effort
+- Luke Farchione - Front-end coding and html development of the app environment for functionality and top-tier bug resolution.  
+- Brian Mulder – Documentation specialist and user testing
 
-**Testing:**
+**15. Testing:**
     - Explain how to run tests for your project.
-

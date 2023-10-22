@@ -24,10 +24,9 @@ Ticketing System with Upvoting for Promotion
   - [Future Development](#6-future-development)
   - [Acknowledgments](#7-acknowledgments)
   - [Contact Information](#8-contact-information)
-  - [Documentation](#9-documentation)
-  - [Changelog](#10-changelog)
-  - [Contributors](#11-contributors)
-  - [Testing](#12-testing)
+  - [Changelog](#9-changelog)
+  - [Contributors](#10-contributors)
+  - [Testing](#11-testing)
 
 ### 1. Usage:
 - Click on the tab to designate the category of the space you wish to report about.

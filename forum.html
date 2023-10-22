@@ -56,8 +56,9 @@
 
 <div class="sorting">
     <span>sort by</span>
-    <button class="button-2" id="sortbtn-top" onclick="cat = window.location.hash.substr(1).split('-')[0]; com = window.location.hash.substr(1).split('-')[1];sortBy(0); sortfunc = (post) => post.upvotes; filterPosts(cat, com)">top</button>
-    <button class="button-2" id="sortbtn-new" onclick="cat = window.location.hash.substr(1).split('-')[0]; com = window.location.hash.substr(1).split('-')[1];sortBy(1); sortfunc = (post) => post.date; filterPosts(cat, com)">new</button>
+    <button class="button-2" id="sortbtn-top" onclick="sortBy(0)">top</button>
+    <button class="button-2" id="sortbtn-new" onclick="sortBy(1)">new</button>
+    <button class="button-2" id="sortbtn-school" onclick="sortBy(2)">school</button>
 </div>
 
 
@@ -139,14 +140,12 @@
 <div id="mainContainer"></div>
 
 <script>
-  let sortfunc;
-  sortBy(1);
   // Database URL
   const firebaseDatabaseURL = "https://msuduhackton.firebaseio.com";
   // Upvote adding URL
   const upvoteRequestURL = "https://upvote-ulom5v45wa-uc.a.run.app";
-
-// Add your auth token here
+  
+  // Add your auth token here
   const authToken = 'Qo48kLx2pbVoBJOC6dJhslRm35319dam4oOPwfwg';
 
   const hashPart = window.location.hash.substr(1);
@@ -193,20 +192,6 @@
       });
     }
   });
-
-  function sortBy(byWhat){
-    document.getElementById("sortbtn-top").style.color="black";
-    document.getElementById("sortbtn-new").style.color="black";
-    switch(byWhat){
-      case 0: document.getElementById("sortbtn-top").style.color="red";
-      //TODO: filter posts
-      break;
-      case 1: document.getElementById("sortbtn-new").style.color="red";
-      break;
-      case 2: document.getElementById("sortbtn-school").style.color="red";
-      break;
-    }
-  }
 
   // Event Listener for form submission
   document.getElementById('postContent').addEventListener('submit', function(e) {
@@ -257,50 +242,18 @@
       document.getElementById('location').textContent = `${category}`;
     }
 
-    if (category === "home" && !community) {
-      const fetchUrl = `${firebaseDatabaseURL}/posts.json?auth=${authToken}`;
-
-      fetch(fetchUrl)
-      .then(response => response.json())
-      .then(data => {
-        let posts = {};
-
-        for (const category of Object.values(data)) {
-          for (const community of Object.values(category)) {
-            for (const postId in community) {
-              posts[postId] = community[postId];
-            }
-          }
-        }
-
-        updatePosts(posts);
-      })
-    } else {
-      const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json`;
-
-      fetch(fetchUrl)
-      .then(response => response.json())
-      .then(data => updatePosts(data));
-    }
+    const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
+    
+    fetch(fetchUrl)
+    .then(response => response.json())
+    .then(data => updatePosts(data));
   }
     
   function updatePosts(posts) {
-    if (!sortfunc) sortfunc = (post) => 0;
     const container = document.getElementById('mainContainer');
     container.innerHTML = '';
-
-    let postssorted = [];
     for (const postId in posts) {
-      postssorted.push([postId, posts[postId]]);
-    }
-    
-    postssorted.sort((a, b) => sortfunc(b[1]) - sortfunc(a[1]));
-    
-    console.log(postssorted);
-
-    for (const postdata of postssorted) {
-      const postId = postdata[0];
-      const post = postdata[1];
+      const post = posts[postId];
       const postDiv = document.createElement('div');
       postDiv.id = postId;
       postDiv.className = 'post';
@@ -376,16 +329,29 @@
       flagButton.className = 'flag-button';
 
        // Add an event listener to handle flagging/reporting
-      flagButton.addEventListener('click', function() {
-      // Get the title and content from the post object
-      //const postTitle = post.title;
-      //const postContent = post.content;
-      const postId = postDiv.id; // Get the postId from the postDiv id
-
-      // Redirect to the report.html page with title and content as query parameters
-      const reportUrl = `report.html?postId=${encodeURIComponent(postId)}`;
-      window.location.href = reportUrl;
-      });
+       flagButton.addEventListener('click', function() {
+        const postTitle = post.title;
+        const postContent = post.content;
+        const postId = postDiv.id;
+    
+        const reportUrl = `report.html?postId=${encodeURIComponent(postId)}`;
+    
+        // Calculate the position to center the popup
+        const screenWidth = window.screen.width;
+        const screenHeight = window.screen.height;
+        const popupWidth = 600; // Adjust this as needed
+        const popupHeight = 400; // Adjust this as needed
+        const left = (screenWidth - popupWidth) / 2;
+        const top = (screenHeight - popupHeight) / 2;
+    
+        // Open a new window with the report.html URL and centered position
+        const popup = window.open(reportUrl, 'Report Window', `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`);
+    
+        // Check if the popup was blocked
+        if (!popup) {
+            alert('Please allow pop-ups to report this post.');
+        }
+    });
 
       // Append the flag button to the flagContainer
       // flagContainer.appendChild(flagButton);
@@ -398,7 +364,6 @@
       // Append post title and content to postContentDiv
       postContentDiv.appendChild(postTitle);
       postContentDiv.appendChild(postContent);
-      postContentDiv.appendChild(postDate);
 
       postContentDivParent.appendChild(upvoteInfo)
       postContentDivParent.appendChild(postContentDiv)
@@ -413,6 +378,20 @@
       postContentDivParent.style.display = "flex";
       }
     }
+  function sortBy(byWhat){
+    document.getElementById("sortbtn-top").style.color="black";
+    document.getElementById("sortbtn-new").style.color="black";
+    document.getElementById("sortbtn-school").style.color="black";
+    switch(byWhat){
+      case 0: document.getElementById("sortbtn-top").style.color="red";
+      //TODO: filter posts
+      break;
+      case 1: document.getElementById("sortbtn-new").style.color="red";
+      break;
+      case 2: document.getElementById("sortbtn-school").style.color="red";
+      break;
+    }
+  }
 
   window.addEventListener('DOMContentLoaded', function() {
     const hashPart = window.location.hash.substr(1);

@@ -7,17 +7,16 @@ Project By: Team 9
 - Luke Farchione
 - Brian Mulder
 
-Project: Service Needed Reporting System for a Campus or Organization
+**Project:**
+Service Needed Reporting System for a Campus or Organization
 
-Type: Ticketing System with Upvoting for Promotion
+**Type:**
+Ticketing System with Upvoting for Promotion
 
 **INSERT SCREENSHOT**
 
 **Table of Contents:**
 List the sections of your README for easy navigation.
-
-**Installation:**
-   - Explain how to set up your project locally. Include any dependencies and commands needed for installation.
    
 **Usage:**
    - Describe how to use your project.
@@ -47,9 +46,6 @@ List the sections of your README for easy navigation.
 **Future Development:**
     - Share your plans for future development.
     - List features or improvements you'd like to add.
-
-**License:**
-    - Specify the open-source license under which your project is released.
 
 **Acknowledgments:**
     - Give credit to any external resources, libraries, or tools you used.

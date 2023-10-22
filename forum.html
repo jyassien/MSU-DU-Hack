@@ -91,6 +91,12 @@
   // Add your auth token here
   const authToken = 'Qo48kLx2pbVoBJOC6dJhslRm35319dam4oOPwfwg';
 
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().slice(0, -5);
+    return formattedDate;
+  }
+
   // Event Listener for form submission
   document.getElementById('newPostForm').children[0].addEventListener('submit', function(e) {
     e.preventDefault();
@@ -105,7 +111,8 @@
     const newPost = {
       title: title,
       content: content,
-      upvotes: 0
+      upvotes: 0,
+      date: getCurrentDate(),
     };
     
     // Firebase endpoint for storing posts
@@ -148,25 +155,25 @@
       document.getElementById('location').textContent = `${category}`;
     }
 
-      const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
-      
-      fetch(fetchUrl)
-      .then(response => response.json())
-      .then(data => updatePosts(data));
-    }
+    const fetchUrl = `${firebaseDatabaseURL}/posts/${category}/${community}.json?auth=${authToken}`;
     
-    function updatePosts(posts) {
-      const container = document.getElementById('mainContainer');
-      container.innerHTML = '';
-      for (const postId in posts) {
-        const post = posts[postId];
-        const postDiv = document.createElement('div');
-        postDiv.id = postId;
-        postDiv.className = 'post';
+    fetch(fetchUrl)
+    .then(response => response.json())
+    .then(data => updatePosts(data));
+  }
     
-        // Create a div for upvote button and vote count
-        const upvoteInfo = document.createElement('div');
-        upvoteInfo.className = 'upvote-info';
+  function updatePosts(posts) {
+    const container = document.getElementById('mainContainer');
+    container.innerHTML = '';
+    for (const postId in posts) {
+      const post = posts[postId];
+      const postDiv = document.createElement('div');
+      postDiv.id = postId;
+      postDiv.className = 'post';
+  
+      // Create a div for upvote button and vote count
+      const upvoteInfo = document.createElement('div');
+      upvoteInfo.className = 'upvote-info';
 
       // Create upvote button
       const upvoteButton = document.createElement('div');
@@ -195,39 +202,43 @@
       postContent.className = 'post-content-text';
       postContent.innerText = `Content: ${post.content}`;
 
-        upvoteButton.addEventListener('click', function() {
-          const hashPart = window.location.hash.substr(1);
-          
-          const category = hashPart.split("-")[0];
-          const community = hashPart.split("-")[1];
-          
-          const postUrl = `${upvoteRequestURL}?category=${category}&community=${community}&postid=${postId}`;
-          console.log(postUrl);
-          // Perform a POST request to post api
-          fetch(postUrl, {
-            method: 'POST',
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Success:', data);
+      const postDate = document.createElement('div');
+      postDate.className = 'post-date';
+      postDate.innerText = `Created: ${post.date}`;
 
-            post.upvotes++;
-            voteCount.innerText = post.upvotes;
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+      upvoteButton.addEventListener('click', function() {
+        const hashPart = window.location.hash.substr(1);
+        
+        const category = hashPart.split("-")[0];
+        const community = hashPart.split("-")[1];
+        
+        const postUrl = `${upvoteRequestURL}?category=${category}&community=${community}&postid=${postId}`;
+        console.log(postUrl);
+        // Perform a POST request to post api
+        fetch(postUrl, {
+          method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+
+          post.upvotes++;
+          voteCount.innerText = post.upvotes;
+        })
+        .catch((error) => {
+          console.error('Error:', error);
         });
-    
-        // Append upvote button and vote count to the upvoteInfo div
-        upvoteInfo.appendChild(upvoteButton);
-        upvoteInfo.appendChild(voteCount);
-        upvoteInfo.style.width = "50px";
-
+      });
   
+      // Append upvote button and vote count to the upvoteInfo div
+      upvoteInfo.appendChild(upvoteButton);
+      upvoteInfo.appendChild(voteCount);
+      upvoteInfo.style.width = "50px";
+
       // Append post title and content to postContentDiv
       postContentDiv.appendChild(postTitle);
       postContentDiv.appendChild(postContent);
+      postContentDiv.appendChild(postDate);
 
       postContentDivParent.appendChild(upvoteInfo)
       postContentDivParent.appendChild(postContentDiv)
